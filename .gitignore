@@ -1,0 +1,5 @@
+# The kit folder's own ignore list (the kit is generated; this file travels with it).
+__pycache__/
+*.pyc
+.claude/settings.local.json
+.env

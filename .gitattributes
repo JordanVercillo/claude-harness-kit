@@ -1,0 +1,2 @@
+# LF everywhere, so the kit is byte-identical on every machine it is carried to.
+* text=auto eol=lf

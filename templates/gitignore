@@ -1,0 +1,27 @@
+# Merge these into the repo's .gitignore (add language-appropriate lines).
+
+# Secrets & token caches (NEVER commit)
+.env
+.cache/
+
+# Claude Code machine-local settings
+.claude/settings.local.json
+
+# Rebuildable artifacts (the script is the artifact — data/outputs stay untracked)
+# {{ARTIFACT_DIRS}}   e.g. data/, outputs/, *.duckdb
+
+# Python (uncomment if a Python repo)
+# __pycache__/
+# *.py[cod]
+# .venv/
+# .ipynb_checkpoints/
+# .pytest_cache/
+
+# Node (uncomment if a JS/TS repo)
+# node_modules/
+# dist/
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
