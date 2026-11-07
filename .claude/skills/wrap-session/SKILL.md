@@ -51,7 +51,7 @@ This copy is the repo's own: list what the repo regenerates before a commit here
    on `origin/main`, not the branch's copy (two sessions numbering against their own branches
    both claim the same number), and land it in the same PR as anything that cites it. Then run
    `/dream` (through the Skill tool): it decides whether this wrap gets the light pass alone or
-   the full pass too (every fifth session, PROPOSED, or when the 📍 moves a phase; the owner
+   the full pass too (every fifth session, or when the 📍 moves a phase; the owner
    confirms its summary before anything is rewritten), and its changes ride this wrap commit.
 5. **Retro, when the session fought the harness.** Run `/retro` (through the Skill tool) when any
    of these happened: a gate or check failed twice on the same class; an edit was reverted, or a

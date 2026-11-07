@@ -41,8 +41,8 @@ Done when each question has an answer in the report; "light dream: nothing to co
 The cadence is counted from the RESUME block's "How to work" line, which carries the last full
 dream's date: five dated Session-log lines since it (git holds the dropped ones), or the 📍
 moving to a new phase in this wrap, triggers it. No date there yet (the first wrap after this
-skill lands): write today's, and count from it. **The 5 is PROPOSED** until the owner rules it;
-its home is that line and this one.
+skill lands): write today's, and count from it. Five is the default; a repo's owner may rule
+another number, and its home is that line and this one.
 
 1. **Read the corpus** by section (long files by heading; the journal by entry).
 2. **Draft the consolidation**, each item with its evidence, as one of five kinds:

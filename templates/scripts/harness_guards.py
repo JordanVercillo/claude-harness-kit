@@ -23,7 +23,7 @@ Checks (each reports ok + findings):
                      (150), a RESUME HERE block of <= --resume-lines (20), <= --log-entries dated
                      Session log entries (10)
   skill_budget       every .claude/skills/<name>/SKILL.md stays at or under --skill-lines lines
-                     (SKILL_MAX_LINES: 150, PROPOSED); detail beyond it moves to a references/ file
+                     (SKILL_MAX_LINES, 150 by default); detail beyond it moves to a references/ file
                      in the skill's folder or to a script the skill names
 
 Usage:  uv run scripts/harness_guards.py [--root DIR] [--skip CHECK ...] [--context-lines N]
@@ -49,12 +49,12 @@ LIST_ITEM = re.compile(r"^\s*(?:[-*+]|\d+[.)])\s+(.*)$")
 LOG_ENTRY = re.compile(r"^- \*\*\d{4}-\d{2}-\d{2}\*\*")
 
 # Budgets (the flags override them per run). The memory ones have held since the harness began.
-# The skill one is PROPOSED (2026-11-07): the memory files, which had a budget, never drifted,
-# while a skill with none doubled in a week with nothing watching. The owner rules the number.
+# The skill one dates from 2026-11-07: the memory files, which had a budget, never drifted, while
+# a skill with none doubled in a week with nothing watching. A repo's owner rules the numbers.
 CONTEXT_MAX_LINES = 150
 RESUME_MAX_LINES = 20
 SESSION_LOG_MAX = 10
-SKILL_MAX_LINES = 150  # PROPOSED
+SKILL_MAX_LINES = 150
 
 
 class StrictLoader(yaml.SafeLoader):
@@ -252,7 +252,7 @@ def check_skill_budget(max_lines: int) -> list[str]:
         n = len(read(sm).splitlines())
         if n > max_lines:
             rel = sm.relative_to(ROOT).as_posix()
-            findings.append(f"{rel}: {n} lines, over the {max_lines}-line budget (PROPOSED); move detail to a "
+            findings.append(f"{rel}: {n} lines, over the {max_lines}-line budget; move detail to a "
                             "references/ file in the skill's folder or to a script the skill names")
     return findings
 

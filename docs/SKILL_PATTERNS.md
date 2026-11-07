@@ -39,7 +39,7 @@ each other misfire on each other's traffic. A skill only the owner should start 
 3. **Determinism in scripts, judgment in prompts.** Facts come from a script (JSON out); the LLM
    formats, flags, decides. Generation gets bracketed: script-collect before, script-validate
    after, loop until valid. (Card: `deterministic-audit-scripts.md`.)
-4. **Progressive disclosure, with a budget.** SKILL.md stays at or under 150 lines (PROPOSED; the
+4. **Progressive disclosure, with a budget.** SKILL.md stays at or under 150 lines (the default; the
    `skill_budget` guard holds it); bulky detail lives in `references/` files beside it or in a
    script the skill names, read only when needed. A skill with no budget doubles in weeks with
    nothing watching, while the memory files, which have one, never drift.

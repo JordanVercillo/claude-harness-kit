@@ -32,7 +32,7 @@ side loops: diagnose (a defect)  ·  /handoff (stop mid-task; the next /resume c
 - **`/wrap-session`** reviews the brief against its Done-when lines, sorts the tech debt (each new
   or unsorted chore to the lead's next debt batch, the owner, or the slice it is owed to), saves
   the memory within its budgets, writes the journal, and runs **`/dream`**: a light pass every
-  wrap, a full consolidation every fifth session (PROPOSED) or when the 📍 moves a phase, the
+  wrap, a full consolidation every fifth session (the default) or when the 📍 moves a phase, the
   owner confirming the summary before anything is rewritten; the journal stays append-only.
 - **`/retro`**, when the harness fought back: it asks the owner each candidate (evidence, the fix
   and its home, why it helps, its cost every session) in rounds and applies what they OK on the
@@ -73,7 +73,7 @@ plan, closed by `/wrap-session` against its own **Done when** list.
 
 | Tier | Pieces | Why | Install when |
 |---|---|---|---|
-| **Memory core** | `CLAUDE.md` bootloader · `notes/PROJECT_CONTEXT.md` (RESUME HERE ≤ 20 lines, file ≤ 150, session log ≤ 10) · `notes/roadmap.md` with a 📍 · `notes/journal.md` (numbered, append-only) · `/resume` · `/groom` · `/wrap-session` · `/dream` · `/handoff` · `/retro` · the session brief (outside the repo) · the SessionStart hook · `block_protected_paths.py` · `.claude/rules/harness.md` · `harness_guards.py` (six checks; a skill stays at or under 150 lines, PROPOSED) | A session that re-derives state from code spends its context before it works. Budgets keep the memory a map, not a transcript. The owner unblocks the lane before it starts and confirms the brief before an agent is briefed. A rule in prose is advisory; a hook is a gate. | every repo |
+| **Memory core** | `CLAUDE.md` bootloader · `notes/PROJECT_CONTEXT.md` (RESUME HERE ≤ 20 lines, file ≤ 150, session log ≤ 10) · `notes/roadmap.md` with a 📍 · `notes/journal.md` (numbered, append-only) · `/resume` · `/groom` · `/wrap-session` · `/dream` · `/handoff` · `/retro` · the session brief (outside the repo) · the SessionStart hook · `block_protected_paths.py` · `.claude/rules/harness.md` · `harness_guards.py` (six checks; a skill stays at or under 150 lines by default) | A session that re-derives state from code spends its context before it works. Budgets keep the memory a map, not a transcript. The owner unblocks the lane before it starts and confirms the brief before an agent is briefed. A rule in prose is advisory; a hook is a gate. | every repo |
 | **Gates** | `/verify` (the check commands `CLAUDE.md` names, one table) · `/ship` (a PR sized to the change; the owner merges) · the `code-reviewer` seat (CONFIRMED / PLAUSIBLE, HOLD on a partial pass) · `diagnose` · the PR template (acceptance evidence, merge risk) · the guards in CI | "Looks done" is the only signal an agent has unless a check returns pass / fail. A reviewer with a fresh context catches what the author's context hides. | any repo with code |
 | **Specs** | `/spec` (+ its validator) · `/interview-me` · `specs/` with a README | The spec is the frozen contract the build reads; the interview is how it stops being ambiguous. Numbers are PROPOSED until the owner rules them. | anything non-trivial |
 | **Lead and seats** | `/orchestrator` · `.claude/agents/` seats with `## Your files` and `## Creates at first task` · the roster in `CLAUDE.md` · `kb-librarian` where a knowledge base exists · `MERGE-POLICY.md` where two or more people commit | One lead that briefs one expert at a time keeps the main context clean and the reports verifiable. File ownership keeps two writers off one file. | work that spans domains |
@@ -85,7 +85,7 @@ plan, closed by `/wrap-session` against its own **Done when** list.
    links to it. Views are generated, and a drift guard fails CI when a twin is stale.
 2. **Memory is budgeted, guarded and dreamed.** A context file or a skill that grows past its
    budget fails a check; history lives in git, not in the file; a full consolidation pass every
-   fifth session (PROPOSED) keeps the lessons a map, and the journal stays append-only.
+   fifth session (the default) keeps the lessons a map, and the journal stays append-only.
 3. **Spec before code, and the owner rules.** Seats draft and recommend; an unruled number is
    labelled PROPOSED; a placeholder is a decision nobody made.
 4. **A check you haven't seen fail isn't a check.** A new guard or test is broken on purpose

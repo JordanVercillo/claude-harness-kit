@@ -26,7 +26,7 @@ domain templates carry `{{…}}` placeholders to fill; `docs/` is read, never in
 | resume | skill | `.claude/skills/resume/SKILL.md` | start warm: memory → health → the ledger → /groom with the owner → the draft brief → the brief grill → hand to /orchestrator | every repo | name the repo's health checks if CLAUDE.md doesn't |
 | groom | skill | `.claude/skills/groom/SKILL.md` | groom the backlog with the owner before the lane starts: the machine, what needs them (checked live), the sitting schedule, the debt lane, the intakes; questions in rounds; returns the lane | every repo | name the repo's labels and its machine instruments if CLAUDE.md doesn't |
 | wrap-session | skill | `.claude/skills/wrap-session/SKILL.md` | close: review the brief, sort the tech debt, save memory within budget, journal, /dream, retro on friction, commit, push | every repo | list what the repo regenerates before a commit |
-| dream | skill | `.claude/skills/dream/SKILL.md` | consolidate the memory: a light pass every wrap, a full pass every fifth session (PROPOSED) or at a phase gate; the owner confirms before anything is rewritten; the journal stays append-only | every repo | rarely |
+| dream | skill | `.claude/skills/dream/SKILL.md` | consolidate the memory: a light pass every wrap, a full pass every fifth session (the default) or at a phase gate; the owner confirms before anything is rewritten; the journal stays append-only | every repo | rarely |
 | handoff | skill | `.claude/skills/handoff/SKILL.md` | stop mid-task; a continuation document outside the repo for the next /resume | every repo | rarely |
 | retro | skill | `.claude/skills/retro/SKILL.md` | session friction → ranked candidates (a check, a hook, a deletion), each with a home; asks the owner each one and applies what they OK on the batch PR | every repo | rarely |
 | session_start hook | hook | `templates/hooks/session_start.py` | SessionStart: injects the RESUME block, git state, open briefs and the newest handoff | every repo (registered in `.claude/settings.json`) | never; it reads notes/PROJECT_CONTEXT.md |
@@ -39,7 +39,7 @@ domain templates carry `{{…}}` placeholders to fill; `docs/` is read, never in
 | settings.json | template | `templates/.claude/settings.json` | the two hooks registered, a starter allowlist | every repo (merge into an existing one) | keep the repo's permissions; swap `uv run` for `python` when uv is absent |
 | block_protected_paths hook | hook | `templates/hooks/block_protected_paths.py` | PreToolUse: hard-blocks edits to generated, vendor and read-only paths | every repo | fill PROTECTED with the repo's paths |
 | rules/harness.md | template | `templates/.claude/rules/harness.md` | path-scoped rule: how to write seats, skills, hooks and rules (loads only while editing `.claude/`) | every repo | none |
-| harness_guards.py | template | `templates/scripts/harness_guards.py` | the six hygiene checks: skill and seat frontmatter, rules, hooks registered, memory budget, skill budget (150 lines, PROPOSED) | every repo; run it in CI | none |
+| harness_guards.py | template | `templates/scripts/harness_guards.py` | the six hygiene checks: skill and seat frontmatter, rules, hooks registered, memory budget, skill budget (150 lines by default) | every repo; run it in CI | none |
 
 ## Gates (any repo with code)
 
