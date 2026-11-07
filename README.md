@@ -23,7 +23,9 @@ Generated from one canonical copy; nothing here is hand-edited. `CATALOG.md` is 
 
    It shows the catalog, asks six questions about the repo's purpose and vision, recommends
    ADOPT / ADAPT / SKIP per piece, installs what you rule, and proves the install.
-4. Begin with `/resume`; end every working session with `/wrap-session`.
+4. Begin with `/resume` (it grooms the backlog with you and grills you on the session brief before
+   any work starts); end every working session with `/wrap-session` (it sorts the tech debt and
+   consolidates the memory).
 
 Prerequisites: Claude Code, git, Python 3.11+ with `uv` (or `python` plus `pyyaml`; the startup
 skill writes whichever it finds into the hook commands). `gh` is optional (`/ship` uses it).
@@ -32,7 +34,7 @@ skill writes whichever it finds into the hook commands). `gh` is optional (`/shi
 
 | Folder | Holds |
 |---|---|
-| `.claude/skills/` | the shared skills, ready to paste: `kit-start`, `resume`, `wrap-session`, `orchestrator`, `handoff`, `retro`, `diagnose`, `verify`, `spec` (+ validator), `interview-me`, `ship` |
+| `.claude/skills/` | the shared skills, ready to paste: `kit-start`, `resume`, `groom`, `wrap-session`, `dream`, `orchestrator`, `handoff`, `retro`, `diagnose`, `verify`, `spec` (+ validator), `interview-me`, `ship` |
 | `.claude/agents/` | the shared seats, ready to paste: `code-reviewer` (the review gate), `kb-librarian` |
 | `templates/` | the repo-shaped pieces with `{{…}}` placeholders: `CLAUDE.md`, `notes/`, `.claude/settings.json`, the two hooks, the rule, the guards, the PR template, `MERGE-POLICY.md` |
 | `seats/` | domain-seat templates: the generic shape, plus SQL, data-modeling, Python and testing seats |

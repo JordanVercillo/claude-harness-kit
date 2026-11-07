@@ -1,13 +1,14 @@
 ---
 name: resume
-description: Start a session warm — orient from the repo's living memory, check its health, write the session brief, hand it to /orchestrator. TRIGGER when the user types /resume, "pick up where we left off", "get me back up to speed", or starts a session cold. SKIP for a specific new task that states its own goal (/orchestrator writes the brief then).
+description: Start a session warm — orient from the repo's living memory, check its health, groom the backlog with the owner (/groom), write the session brief, grill the owner on it (/interview-me), hand it to /orchestrator. TRIGGER when the user types /resume, "pick up where we left off", "get me back up to speed", or starts a session cold. SKIP for a specific new task that states its own goal (/orchestrator writes the brief then).
 user-invocable: true
-allowed-tools: [Read, Glob, Grep, Bash, PowerShell, Write, Skill]
+allowed-tools: [Read, Glob, Grep, Bash, PowerShell, Write, Edit, Skill, AskUserQuestion]
 ---
 
-Get oriented from the repo's own memory, prove the state, spec the session, then start it. Run
-the steps in order, in one turn. The turn ends with `/orchestrator` running on a written brief,
-never with a question the repo could have answered. This copy is the repo's own: name its instruments (its checks, its tracker) here as the repo earns them.
+Get oriented from the repo's own memory, prove the state, groom the backlog with the owner, spec
+the session as a brief the owner confirms, then start it. Run the steps in order, in one turn.
+The only questions asked on the way are `/groom`'s and the grill's, never one the repo could have
+answered. The turn ends with `/orchestrator` running on the confirmed brief. This copy is the repo's own: name its instruments (its checks, its tracker) here as the repo earns them.
 
 ## 1 — Recall (read the memory; don't re-derive it)
 
@@ -20,12 +21,11 @@ never with a question the repo could have answered. This copy is the repo's own:
 - **Continuations outrank the ➡️ NEXT ACTION**, in this order. Two kinds live in this repo's
   Claude Code project data folder, `~/.claude/projects/<project-key>/`, where `<project-key>` is
   the repo's absolute path with every character that isn't a letter or a digit made `-`
-  (`/handoff` §1 says the same, with the worktree case):
-  - first, a `/handoff` document in `handoffs/` (the SessionStart hook names the newest): its
-    **Next step** comes before everything else until that task is done or wrapped;
-  - then an open **session brief** in `sessions/` (not under `closed/`): the session that wrote
-    it never wrapped, so its unticked **Done when** items and open items are this session's
-    first candidates.
+  (`/handoff` §1 says the same, with the worktree case): first, a `/handoff` document in
+  `handoffs/` (the SessionStart hook names the newest), whose **Next step** comes before
+  everything else until that task is done or wrapped; then an open **session brief** in
+  `sessions/` (not under `closed/`), whose session never wrapped, so its unticked **Done when**
+  items and open items are this session's first candidates.
 - **Unmerged memory.** `git branch -r --no-merged origin/main`: a `wrap/*` or `claude/*` branch
   that touches `notes/` is a wrap another session couldn't land (a cloud session can't commit to
   `main`). Read its session-log line and journal entry now; `/wrap-session` folds them into the
@@ -41,17 +41,18 @@ never with a question the repo could have answered. This copy is the repo's own:
 - `git status -sb` + `git log origin/main..HEAD --oneline`: uncommitted work, unpushed commits,
   and stray files at the repo root (a guard's output, a screenshot): each is a tidy item for the
   wrap, named now.
-- `gh pr list --state open` and `gh run list --limit 3`: open PRs and red CI.
-- `gh pr list --state merged --limit 10`: what landed since the latest session-log line. The
-  memory may not know it yet.
+- `gh pr list --state open`, `gh run list --limit 3`, `gh pr list --state merged --limit 10`:
+  open PRs, red CI, and what landed since the latest session-log line (the memory may not know).
 - **The open items, live from the issue tracker:** `gh issue list --state open`, filtered the way
   the repo labels its work (the 📍 phase's milestone; a label for decisions waiting on the owner;
-  a label for untriaged intakes). **The open-items ledger is derived here, every session, from the
-  tracker and the checks; it is never stored in a file** (one home per fact). Issues the owner has
-  marked as their own lane (a `dnd` label or its equivalent) are listed as DND only: never offered
-  as work, never triaged, never counted as decisions waiting.
-- A repo without an issue tracker: the open items are the 📍 phase's unticked roadmap items, and
-  the brief says so.
+  a tech-debt label; a label for untriaged intakes). **The open-items ledger is derived here,
+  every session, from the tracker and the checks; it is never stored in a file** (one home per
+  fact). Issues the owner has marked as their own lane (a `dnd` label or its equivalent) are
+  listed as DND only: never offered as work, never triaged, never counted as decisions waiting.
+  A repo without an issue tracker: the open items are the 📍 phase's unticked roadmap items.
+- Every item the RESUME block lists as waiting on the owner that has a live state (a PR, an
+  issue, a folder) is checked where it lives; one already done is a stale fact for the wrap, never
+  a question for the owner. The same goes for a brief's or a handoff's claim that something merged.
 
 ## 3 — Emit the RESUME BRIEF
 
@@ -59,25 +60,34 @@ never with a question the repo could have answered. This copy is the repo's own:
 === RESUME BRIEF ===
 Repo:     <one line: what this is>
 Where:    <roadmap phase + 📍 item>
+Machine:  <what the lane the session would take needs from the owner's machine (an app open or closed, a service running), or "nothing to do"; /groom step 1 judges it>
 Health:   <each deterministic check and its result, or "n/a">
 Flags:    <behind origin / uncommitted / unpushed / stray files / open PRs / red CI / unmerged wrap branch, or "none">
 Landed:   <PRs merged since the last session-log line, or "nothing new">
 Left off: <the latest dated session-log line>
 ➡️ NEXT:  <PROJECT_CONTEXT's ➡️ NEXT ACTION verbatim>
 Open:     <open items as #n title, grouped: blocks the next lane / doesn't>
+Debt:     <chores under the tech-debt label, and unsorted ones, as #n title, or "none">
 DND:      <the owner's own lanes (hands off), or "none">
-Owner:    <decisions waiting on the owner: merges, approvals, triages, rulings>
+Owner:    <how many items wait on the owner; /groom walks each one next>
 ```
 
 **Never end the turn on the brief.** It's orientation, not a deliverable.
 
-## 4 — Spec this session: write the session brief
+## 4 — Groom the backlog with the owner
 
-Pick the lane: the continuation from step 1 if there is one; otherwise the first item of the
-➡️ NEXT ACTION that nothing in the owner's hands blocks. When the first item is blocked (a merge,
-an approval, a triage, a ruling), name the blocker and whose hand it's in, and take the next
-unblocked item in the roadmap's order; a session never idles on the owner while the roadmap has
-unblocked work. Ask only when two lanes are equally next and the roadmap doesn't order them.
+Run `/groom` (through the Skill tool) on the ledger. It walks the owner through the machine, what
+needs them (checked live), the sitting schedule, the debt lane and the intakes, asks every blocking
+or important question waiting on them in rounds, and returns the lane their answers pick, never one
+picked before them, with every answer recorded as shown. Done when it has returned both.
+
+## 5 — Write the draft brief
+
+The lane is the one `/groom` returned: the continuation from step 1 when there is one; else a
+sitting or triage the owner routed to this session (the first of several; the rest go to Open
+items); else the first item of the ➡️ NEXT ACTION that nothing in the owner's hands blocks. When
+the first item is blocked, name the blocker and whose hand it's in, and take the next unblocked
+item in the roadmap's order; a session never idles on the owner while unblocked work exists.
 
 Write the brief to `~/.claude/projects/<project-key>/sessions/<yyyy-mm-dd-HHmm>-<slug>.md`
 (next to `handoffs/`: outside the repo, so it is never committed, and inside Claude Code's own
@@ -109,15 +119,26 @@ to `closed/` with a one-line pointer to the new one, so only one brief is ever o
 - [ ] <observable: a check's result, a PR state, a file, a verdict> — proof: <how /wrap-session checks it>
 
 ## Owner's decisions needed
-- <decision> — REC: <recommendation and why>
+- <a question still open after /groom> — REC: <recommendation and why> (the grill asks it)
+
+## Sitting log
+<the answers from /groom, then the grill's: each question as shown, the pick, its description, any typed words, verbatim and decoded; a sitting later in the session appends under this one heading, never a second>
 ```
 
 Rules for the brief: every open item already has a home or gets one now (an issue, a spec
 question, a PR). "Blocks" is yes only when a Done-when item can't be met without it. Each
-Done-when line is something a cold reader can check. The plan names one agent per step, never
-two at once.
+Done-when line is something a cold reader can check. The plan names one agent per step, never two.
 
-## 5 — Kick off
+## 6 — Grill the owner on the brief
+
+Run `/interview-me`'s **brief grill** (through the Skill tool) on the brief: the walk-through in
+plain words (the goal, what gets built or ruled and why, each step's agent and what it does, the
+Done-when lines, the last wrap's tech-debt sort), the questions still open, in rounds, then the
+playback the owner confirms in one last question; the brief is a draft until then. An answer that
+changes the lane, the scope or the plan rewrites the brief before the playback (the `Machine:` line
+judged again). Done when the brief on disk is the one the owner confirmed, every answer in its log.
+
+## 7 — Kick off
 
 In this same turn, hand the brief to `/orchestrator` with its path: `/orchestrator <brief path>`
 .

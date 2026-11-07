@@ -18,9 +18,9 @@ next step. Reading it makes you fully caught up without re-deriving anything.
 
 | Want | Use |
 |---|---|
-| Get back up to speed & continue (start here) | `/resume` (orients, writes the session brief, hands it to `/orchestrator`) |
+| Get back up to speed & continue (start here) | `/resume` (orients, grooms the backlog with you through `/groom`, writes the session brief, grills you on it, hands it to `/orchestrator`) |
 | Lead this session's work from its brief | `/orchestrator` + the brief path or a one-line goal |
-| End a session that did meaningful work | `/wrap-session` (reviews the brief, saves memory, tidies, runs `/retro` when the harness fought back) |
+| End a session that did meaningful work | `/wrap-session` (reviews the brief, sorts the tech debt, saves memory, consolidates it through `/dream`, tidies, runs `/retro` when the harness fought back) |
 | Stop mid-task and continue in a fresh session | `/handoff` |
 | Something is red, throws, or a check moved | `diagnose` (model-invoked; name it to force it) |
 | Prove every check passes | `/verify` (it reads the commands from this file: {{TEST_CMD}} · {{LINT_CMD}} · `uv run scripts/harness_guards.py`) |

@@ -12,8 +12,11 @@ recommendation; **the owner decides.** This copy is the repo's own: name its ben
 ## Phase 0 — Orient
 
 - **The session brief.** `$ARGUMENTS` is its path (from `/resume`) or a goal. Given a goal and
-  no brief, write the brief first, in the shape `/resume` §4 gives, to the same `sessions/`
-  folder; the brief is what `/wrap-session` reviews against, so no session runs without one.
+  no brief, write the brief first, in the shape `/resume` §5 gives, to the same `sessions/`
+  folder, then run `/groom` and `/interview-me`'s brief grill before the lane starts; the brief
+  is what `/wrap-session` reviews against, so no session runs without one, and it is a draft
+  until the owner has confirmed its playback. A "Not now" that named a slice comes due as
+  `/groom` step 5 says, however the session was opened.
 - Read `CLAUDE.md`, `notes/PROJECT_CONTEXT.md`, the 📍 item in `notes/roadmap.md`, and the
   spec(s) or docs the lane touches. Honour every `CLAUDE.md` ground rule.
 - **The research shelf**, where the repo keeps research docs. Each lane carries the rows that
@@ -51,6 +54,13 @@ the acceptance criteria verbatim; the files in scope (the agent's `## Your files
 rows by section id; and "never commit; report the diff and the verify verdict; a discovery is
 reported with its facts, never absorbed". The skills the lead runs itself, not an agent:
 `/interview-me`, `/spec`, `/verify`, `/ship`, and `diagnose` the moment something goes red.
+
+**A question for the owner that comes up during the lane is asked then** (this is the rule's one
+statement): a reading of their ruling, a plan that waits on their yes, a premise a review
+overturned, each under `/interview-me`'s laws and logged by its record rule in the brief's
+`## Sitting log`. Only one the owner answers "Not now", or one due after the 📍 phase, becomes an
+issue carrying the repo's label for decisions waiting on the owner, so `/groom` asks it when it's
+due; `/wrap-session` step 0 asks anything still unasked.
 
 ## Phase 3 — Work on a branch
 

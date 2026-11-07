@@ -5,41 +5,35 @@ user-invocable: true
 allowed-tools: [Read, Glob, Grep, Write, Edit, Bash, PowerShell, AskUserQuestion]
 ---
 
-You make a repo "Claude Code native" from the harness kit: a folder of skills, seats, hooks,
-rules and templates that is pasted into a repo and adapted to its workflow. You show what is
-available, learn what the repo is for, recommend what it needs, install only that, and prove the
-install. **The owner rules every verdict**; you recommend. Operate on the current repo (CWD)
-unless the invocation names a target folder.
+You make a repo "Claude Code native" from the harness kit, a folder of skills, seats, hooks, rules
+and templates pasted into a repo and adapted to its workflow: show what is available, learn what
+the repo is for, recommend what it needs, install only that, prove the install. **The owner rules
+every verdict**; you recommend. Operate on the current repo (CWD) unless the invocation names a
+target folder.
 
 ## Phase 0 — Locate the kit and detect the repo (don't ask what you can see)
 
 1. **Find the kit**, in this order, and say which: the path in the invocation's arguments; the
    `HARNESS_KIT` environment variable; a folder named `claude-harness-kit` beside this repo or in
    the home folder; the current folder itself when it holds `CATALOG.md` and `.claude/skills/kit-start/`
-   (then the target repo must be named in the arguments). Read the kit's `CATALOG.md` in full: it
-   is the inventory, the install order and the placeholder table. Read `HANDOFF.md` §"The boundary"
-   once.
+   (then the target repo must be named in the arguments). Read the kit's `CATALOG.md` in full (the
+   inventory, the install order, the placeholder table) and `HANDOFF.md` §"The boundary" once.
 2. **Detect the repo:** `git rev-parse --is-inside-work-tree`, `git log -1` (new or has history);
-   the stack from `pyproject.toml` / `package.json` / `go.mod` / `Cargo.toml` / `*.sln` / a `dbt_project.yml`
-   / `requirements.txt` (language, setup, run, test and lint commands); generated or vendored or
-   synced paths (an index, a catalog, a `vendor/`, a `dist/`, a `target/`, a synced copy): candidates
-   for the protected-paths hook; a knowledge-base folder; CI (`.github/workflows/`, `azure-pipelines.yml`,
-   `.gitlab-ci.yml`); how work is merged (branches, PRs, protected `main`); how many people commit
-   (`git shortlog -sn | head`).
-3. **Detect the tooling** the kit's scripts need: `uv --version`; else `python --version` plus
-   `python -c "import yaml"`. Record which runner the install will write into hook commands and
-   routing rows: `uv run <script>` when uv exists, else `python <script>` (and name `pyyaml` as a
-   prerequisite). Record whether `gh` exists (the `/ship` skill uses it; without it `/ship` opens
-   PRs through the web).
+   the stack from its manifest (`pyproject.toml`, `package.json`, `go.mod`, `Cargo.toml`, `*.sln`,
+   `dbt_project.yml`, `requirements.txt`: language, setup, run, test and lint commands); generated,
+   vendored or synced paths (an index, a catalog, `vendor/`, `dist/`, `target/`): candidates for the
+   protected-paths hook; a knowledge-base folder; CI config; how work is merged (branches, PRs, a
+   protected `main`); how many people commit (`git shortlog -sn | head`).
+3. **Detect the tooling** the kit's scripts need: `uv --version`, else `python --version` plus
+   `python -c "import yaml"`; the runner the install writes into hook commands and routing rows is
+   `uv run <script>` when uv exists, else `python <script>` (name `pyyaml` as a prerequisite). Record
+   whether `gh` exists (`/ship` uses it; without it `/ship` opens PRs through the web).
 4. **Already harnessed?** If `CLAUDE.md`, `notes/PROJECT_CONTEXT.md` or `.claude/skills/` exists,
    never clobber: show the owner what is there and offer to merge or add specific pieces. An
    existing skill of the same name as a kit piece is the repo's own and wins; leave it.
-5. **Enterprise settings:** if a managed settings file exists (`C:\Program Files\ClaudeCode\managed-settings.json`
-   on Windows, `/Library/Application Support/ClaudeCode/managed-settings.json` on macOS,
-   `/etc/claude-code/managed-settings.json` on Linux), read it for `strictPluginOnlyCustomization`,
-   `allowManagedHooksOnly`, `disableAllHooks` and `strictKnownMarketplaces`. Any of the first three
-   can stop loose project skills, agents or hooks from loading: say so now, before installing, and
-   point at `HANDOFF.md` §"If loose skills are blocked". Where you can't read the file, say that.
+5. **Enterprise settings:** read the managed settings file, when one exists (`HANDOFF.md` §"If loose
+   skills are blocked" names the path per OS and the keys): a key that stops loose project skills,
+   agents or hooks from loading is said now, before installing; where you can't read the file, say that.
 
 **Done when:** you can state, in one block, the kit path, the stack, the runner, the merge model,
 the number of committers, the protected-path candidates, and whether the repo is already harnessed.
@@ -48,15 +42,14 @@ the number of committers, the protected-path candidates, and whether the repo is
 
 Present the catalog as one table per tier, from `CATALOG.md`, each row in the owner's terms: the
 piece, what it gives a session, when a repo wants it. Keep the table; drop nothing. Then one
-paragraph on the loop the pieces form (`/resume` → `/orchestrator` → spec → build → `/verify` →
-review → `/ship` → the owner merges → `/wrap-session`), so the owner sees how the pieces connect
-before choosing among them. No recommendation yet: that needs the interview.
+paragraph on the loop the pieces form (`/resume` → `/groom` → brief → grill → build → `/verify` →
+review → `/ship` → the owner merges → `/wrap-session` with `/dream` → `/retro`), so the owner sees
+how the pieces connect before choosing among them. No recommendation yet: that needs the interview.
 
 ## Phase 2 — Interview: the purpose and the vision (one question at a time)
 
-Ask with `AskUserQuestion`, one question per turn, each with a recommendation drawn from Phase 0.
-Never ask what Phase 0 detected; confirm it in the question's premise instead. Six questions at
-most; stop early when the answers already settle the review.
+Ask with `AskUserQuestion`, one question per turn, each with a recommendation drawn from Phase 0;
+never ask what Phase 0 detected, confirm it in the premise. Six at most; stop once the review is settled.
 
 1. **Purpose.** The repo's one-line purpose, and what it is NOT (the adjacent thing that lives
    elsewhere).
@@ -83,8 +76,8 @@ Build one table over every catalog piece except `docs/` and the kit's own start 
 |---|---|---|---|
 
 Rules for the verdict:
-- **core is ADOPT** in every repo (memory, the two hooks, rules, guards, `/resume`,
-  `/wrap-session`, `/handoff`, `/retro`). A repo that already has an equivalent (its own memory
+- **core is ADOPT** in every repo (memory, the two hooks, rules, guards, `/resume`, `/groom`,
+  `/wrap-session`, `/dream`, `/handoff`, `/retro`). A repo that already has an equivalent (its own memory
   file, its own hook) gets ADAPT with the merge named.
 - **gates:** ADOPT when work merges through PRs; ADAPT when the repo has a trunk flow (`/ship`
   commits and pushes, the reviewer still gates); the PR template only with PRs.
@@ -96,9 +89,8 @@ Rules for the verdict:
   check or the repo has one dominant domain; else SKIP, with the trigger that would change it.
 - Every SKIP names what would change the verdict, so the owner can revisit it without the kit.
 
-Present the table with the one-line summary of what will be written, and ask the owner to rule it
-(one question: approve, or name the rows to change). **Done when:** the owner has approved the
-table as it stands.
+Present the table with a one-line summary of what will be written and ask the owner to rule it
+(approve, or name the rows to change). **Done when:** the owner has approved the table as it stands.
 
 ## Phase 4 — Install (write only what was ruled)
 
@@ -135,10 +127,9 @@ file ruled SKIP exists.
 ## Phase 5 — Verify (an install nobody tested is a draft)
 
 Run and show, one table, PASS / FAIL per line:
-- `<runner> scripts/harness_guards.py` passes all five checks;
+- `<runner> scripts/harness_guards.py` passes all six checks;
 - the protected-paths hook blocks a protected path and allows a normal one: pipe
-  `{"tool_name":"Edit","tool_input":{"file_path":"<path>"}}` to it and read the exit code
-  (2 blocks, 0 allows);
+  `{"tool_name":"Edit","tool_input":{"file_path":"<path>"}}` to it; exit 2 blocks, 0 allows;
 - the SessionStart hook prints a JSON object with `additionalContext` holding the RESUME block
   when run from the repo root with an empty stdin;
 - no `{{` remains under the repo (`grep -rn "{{" CLAUDE.md notes/ .claude/ scripts/`), excluding
@@ -153,8 +144,7 @@ exactly what the owner must do on their machine (a restart, a tool install).
 
 ## Phase 6 — Close
 
-Tell the owner, in a few lines: what was installed per tier, the runner written into the
-commands, the one line to begin (`/resume`), and that this is a STARTING harness. The first
-`/retro` after the first slice says what the repo needs more of; an adaptation belongs in this
-repo's copy, and only a generic improvement, with none of this repo's specifics, goes back to the
-kit (`HANDOFF.md` §"The boundary").
+Tell the owner, in a few lines: what was installed per tier, the runner written into the commands,
+the one line to begin (`/resume`), and that this is a STARTING harness whose first `/retro` says
+what the repo needs more of; an adaptation belongs in this repo's copy, and only a generic
+improvement, with none of this repo's specifics, goes back to the kit (`HANDOFF.md` §"The boundary").

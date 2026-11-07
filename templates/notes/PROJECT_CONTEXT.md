@@ -5,7 +5,7 @@
 - **Project:** {{ONE_LINE_WHAT_IT_IS}}
 - **Status:** {{WHAT_IS_DONE_AND_IN_PROGRESS}} <!-- keep the live metric here -->
 - **➡️ NEXT ACTION —** {{THE_ONE_EXACT_NEXT_STEP}} <!-- often the literal command to run -->
-- **How to work:** `/resume` to start warm; `/wrap-session` to save at the end.
+- **How to work:** `/resume` to start warm; `/wrap-session` to save at the end; last full dream: {{TODAY}}.
 
 ---
 

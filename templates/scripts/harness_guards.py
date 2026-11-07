@@ -22,9 +22,12 @@ Checks (each reports ok + findings):
   memory_budget      notes/PROJECT_CONTEXT.md stays within budget: <= --context-lines lines
                      (150), a RESUME HERE block of <= --resume-lines (20), <= --log-entries dated
                      Session log entries (10)
+  skill_budget       every .claude/skills/<name>/SKILL.md stays at or under --skill-lines lines
+                     (SKILL_MAX_LINES: 150, PROPOSED); detail beyond it moves to a references/ file
+                     in the skill's folder or to a script the skill names
 
 Usage:  uv run scripts/harness_guards.py [--root DIR] [--skip CHECK ...] [--context-lines N]
-                                         [--resume-lines N] [--log-entries N]
+                                         [--resume-lines N] [--log-entries N] [--skill-lines N]
 Emits one JSON object; exits 0 when every check that ran passes, 1 otherwise.
 """
 from __future__ import annotations
@@ -44,6 +47,14 @@ sys.dont_write_bytecode = True
 
 LIST_ITEM = re.compile(r"^\s*(?:[-*+]|\d+[.)])\s+(.*)$")
 LOG_ENTRY = re.compile(r"^- \*\*\d{4}-\d{2}-\d{2}\*\*")
+
+# Budgets (the flags override them per run). The memory ones have held since the harness began.
+# The skill one is PROPOSED (2026-11-07): the memory files, which had a budget, never drifted,
+# while a skill with none doubled in a week with nothing watching. The owner rules the number.
+CONTEXT_MAX_LINES = 150
+RESUME_MAX_LINES = 20
+SESSION_LOG_MAX = 10
+SKILL_MAX_LINES = 150  # PROPOSED
 
 
 class StrictLoader(yaml.SafeLoader):
@@ -233,12 +244,26 @@ def check_memory_budget(context_lines: int, resume_lines: int, log_entries: int)
     return findings
 
 
+def check_skill_budget(max_lines: int) -> list[str]:
+    """Every skill body at or under max_lines, counted as a reader counts them (splitlines), so the
+    line ending doesn't matter. A references/ file beside a SKILL.md isn't a skill and isn't counted."""
+    findings = []
+    for sm in sorted((ROOT / ".claude" / "skills").glob("*/SKILL.md")):
+        n = len(read(sm).splitlines())
+        if n > max_lines:
+            rel = sm.relative_to(ROOT).as_posix()
+            findings.append(f"{rel}: {n} lines, over the {max_lines}-line budget (PROPOSED); move detail to a "
+                            "references/ file in the skill's folder or to a script the skill names")
+    return findings
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--skip", nargs="*", default=[], help="checks to skip")
-    ap.add_argument("--context-lines", type=int, default=150)
-    ap.add_argument("--resume-lines", type=int, default=20)
-    ap.add_argument("--log-entries", type=int, default=10)
+    ap.add_argument("--context-lines", type=int, default=CONTEXT_MAX_LINES)
+    ap.add_argument("--resume-lines", type=int, default=RESUME_MAX_LINES)
+    ap.add_argument("--log-entries", type=int, default=SESSION_LOG_MAX)
+    ap.add_argument("--skill-lines", type=int, default=SKILL_MAX_LINES)
     ap.add_argument("--root", help="repo root (default: the nearest ancestor of this script with a .claude/)")
     a = ap.parse_args()
     global ROOT
@@ -250,6 +275,7 @@ def main() -> int:
         "rules_frontmatter": check_rules_frontmatter,
         "hooks_registered": check_hooks_registered,
         "memory_budget": lambda: check_memory_budget(a.context_lines, a.resume_lines, a.log_entries),
+        "skill_budget": lambda: check_skill_budget(a.skill_lines),
     }
     out = {"root": str(ROOT), "ok": True, "checks": {}}
     for name, fn in checks.items():

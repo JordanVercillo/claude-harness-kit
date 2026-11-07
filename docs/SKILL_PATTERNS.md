@@ -39,8 +39,10 @@ each other misfire on each other's traffic. A skill only the owner should start 
 3. **Determinism in scripts, judgment in prompts.** Facts come from a script (JSON out); the LLM
    formats, flags, decides. Generation gets bracketed: script-collect before, script-validate
    after, loop until valid. (Card: `deterministic-audit-scripts.md`.)
-4. **Progressive disclosure.** SKILL.md stays lean; bulky detail lives in `references/` files
-   read only when needed.
+4. **Progressive disclosure, with a budget.** SKILL.md stays at or under 150 lines (PROPOSED; the
+   `skill_budget` guard holds it); bulky detail lives in `references/` files beside it or in a
+   script the skill names, read only when needed. A skill with no budget doubles in weeks with
+   nothing watching, while the memory files, which have one, never drift.
 5. **Draft/lock separation.** Content-authoring skills write `status: draft` and present for
    review; only the human flips to locked/approved. Spec-scale changes get a written spec with
    exit criteria before implementation.
@@ -54,10 +56,13 @@ each other misfire on each other's traffic. A skill only the owner should start 
 
 ```
 1. Open the repo folder as project root  → CLAUDE.md bootloader auto-loads
-2. /<orchestrator>  +  one-line session goal (+ any scope limit)
-3. Phase 0 reads PROJECT_CONTEXT → Phase 1 runs the audit worker
-4. Work happens in reviewable slices; audits/tests after each
-5. Phase 5 writes the memory back — next session starts warm
+2. /resume: memory → health → the ledger → /groom (the owner unblocks the lane) → the draft
+   brief → the grill (/interview-me walks the owner through it; a playback is confirmed)
+3. /orchestrator runs the lane from the brief, one agent at a time (or /<domain>-partner for a
+   one-domain session: Phase 0 reads PROJECT_CONTEXT, Phase 1 runs the audit worker)
+4. Work happens in reviewable slices; audits/tests after each; /verify → review → /ship
+5. /wrap-session writes the memory back (the review, the tech-debt sort, the journal, /dream,
+   /retro when the harness fought back) — next session starts warm
 ```
 
 The prompt stays tiny BY DESIGN: the repo carries the context. If a session needs a long opening

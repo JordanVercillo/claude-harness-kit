@@ -90,11 +90,13 @@ inside a session show what actually loaded, which is the only proof.
 
 1. `/kit-start` in the repo; approve the review table; let it verify.
 2. Fill the RESUME block's first real NEXT ACTION before closing that session (the skill asks).
-3. Next session: `/resume` → it writes the session brief → `/orchestrator` → `/interview-me` the
-   first spec → `/spec` → build on a branch → `/verify` → `/ship` → the owner merges →
-   `/wrap-session`. The first slice is a tracer bullet, not the whole feature.
-4. After the first slice, `/retro`. Anything mechanical it finds becomes a guard or a hook in
-   that repo, never a sentence in `CLAUDE.md`.
+3. Next session: `/resume` → `/groom` (it walks you through what waits on you, and your answers
+   pick the lane) → the draft brief → the grill (`/interview-me` walks you through it; you confirm
+   the playback) → `/orchestrator` → `/interview-me` the first spec → `/spec` → build on a branch →
+   `/verify` → `/ship` → the owner merges → `/wrap-session` (the review, the tech-debt sort, the
+   memory, `/dream`). The first slice is a tracer bullet, not the whole feature.
+4. After the first slice, `/retro`. It asks you each candidate and applies what you OK; anything
+   mechanical becomes a guard or a hook in that repo, never a sentence in `CLAUDE.md`.
 
 ## 7. What not to do
 
