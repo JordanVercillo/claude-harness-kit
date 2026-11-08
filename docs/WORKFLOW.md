@@ -117,10 +117,12 @@ plan, closed by `/wrap-session` against its own **Done when** list.
    default it offers: data only (inputs, fetched data, snapshots, generated outputs, library
    caches) lives in this project's folder in a machine-level data home outside the repo, which an
    env var names, one folder per project; code, docs and every other file never go there, and the
-   doc of the data's layout lives in the repo. The repo's gitignored `data/` is the fallback without a data
-   home and a safety net with one. So a temp dir, a session scratchpad or a synced folder never
-   holds the only copy, one project never edits another's data (the protected-paths hook), and
-   nothing is committed by accident.
+   doc of the data's layout lives in the repo. A data home admits only the repos its owner allows
+   (the data home's allowlist; the kit ships no hook that enforces it, so a machine that wants one
+   writes its own; with no allowlist, the install asks); the repo's gitignored `data/` is the
+   fallback for any other repo or a machine without a data home, and a safety net with one. So a
+   temp dir, a session scratchpad or a synced folder never holds the only copy, one project never
+   edits another's data (the protected-paths hook), and nothing is committed by accident.
 3. **Start warm.** Fill the RESUME HERE block with the first real NEXT ACTION before closing the
    session; the next `/resume` must be productive.
 4. **First slice.** `/resume` → `/groom` → the draft brief → the grill → `/orchestrator` →

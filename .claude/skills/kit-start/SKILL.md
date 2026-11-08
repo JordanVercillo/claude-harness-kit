@@ -23,7 +23,7 @@ target folder.
    vendored or synced paths (an index, a catalog, `vendor/`, `dist/`, `target/`): candidates for the
    protected-paths hook; a knowledge-base folder; CI config; how work is merged (branches, PRs, a
    protected `main`); who commits (`git shortlog -sn | head`); a tracked `data/` (`git ls-files data`);
-   a machine-level data home (an env var like `DATA_ROOT`, or a home dot-folder of project folders).
+   a data home (an env var like `DATA_ROOT`) and whether its own allowlist admits this repo (none: ask).
 3. **Detect the tooling** the kit's scripts need: `uv --version`, else `python --version` plus
    `python -c "import yaml"`; the runner the install writes into hook commands and routing rows is
    `uv run <script>` when uv exists, else `python <script>` (name `pyyaml` as a prerequisite). Record
@@ -57,9 +57,9 @@ never ask what Phase 0 detected, confirm it in the premise. Six at most; stop on
 4. **The domain.** What the repo mostly is: a data platform or warehouse, a pipeline, an app or
    service, a library, infrastructure, docs or research, a course. (The domain pieces hang on this.)
 5. **The ground rules.** The four a session must never break: the runner; what is read-only or
-   generated; where local data lives (default: data only, in this project's folder in the data home
-   Phase 0 found, never a temp dir, a scratchpad or a synced folder; without one, the repo's gitignored
-   `data/`, or another gitignored folder when `data/` is tracked; never a new home); the secrets policy.
+   generated; where local data lives (default: data only, in this project's folder in a data home
+   Phase 0 found that admits this repo, never a temp dir, a scratchpad or a synced folder; else the
+   repo's ignored `data/`, another ignored folder if `data/` is tracked; no new home); the secrets policy.
 6. **What recurs.** The check someone keeps running by eye ("is X healthy?", a count, a parity):
    the candidate for the first deterministic audit. "Nothing yet" is a fine answer.
 
