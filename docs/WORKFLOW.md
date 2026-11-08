@@ -98,8 +98,10 @@ plan, closed by `/wrap-session` against its own **Done when** list.
    slotted (an issue, a spec open question), not absorbed into the current work.
 8. **Deterministic over prose.** Must-happen behaviour is a hook; conventions a script can check
    are guards in CI; rules that matter only for some files are path-scoped in `.claude/rules/`.
-9. **Evidence in the PR, scratch outside the repo.** Verdict lines and test counts are pasted
-   into the PR; proof folders and screenshots nobody references are never committed.
+9. **Evidence in the PR, scratch outside the repo, data in its home.** Verdict lines and test
+   counts are pasted into the PR; proof folders and screenshots nobody references are never
+   committed. Scratch (a probe script, a check's output) stays in the session scratchpad; anything
+   kept or read again is local data and lives where the data ground rule says.
 10. **Write for agents the way the research says works.** A skill's description is a pointer with
     its trigger words first; every step has a completion criterion; state the target behaviour,
     not the prohibition; delete instructions the model already follows; link, never paste.
@@ -109,8 +111,11 @@ plan, closed by `/wrap-session` against its own **Done when** list.
 1. **Create it private** where the workplace's convention allows a choice. Vendor assets,
    personal data and anything with a key never go public.
 2. **Bootstrap.** In a Claude Code session in that folder, `/kit-start <kit path>`. It detects
-   the stack, asks only for the gaps (purpose, vision, who rules, the domain, three ground rules,
-   what recurs), rules the pieces with you, and writes them with their placeholders filled.
+   the stack, asks only for the gaps (purpose, vision, who rules, the domain, four ground rules,
+   what recurs), rules the pieces with you, and writes them with their placeholders filled. One
+   default it offers: local data lives in the repo's own `data/`, gitignored (inputs, fetched data,
+   snapshots, reports, library caches in `data/cache/`), so a temp dir, a session scratchpad, a
+   home-folder cache or a synced folder never holds the only copy and nothing is committed by accident.
 3. **Start warm.** Fill the RESUME HERE block with the first real NEXT ACTION before closing the
    session; the next `/resume` must be productive.
 4. **First slice.** `/resume` → `/groom` → the draft brief → the grill → `/orchestrator` →
@@ -124,4 +129,6 @@ plan, closed by `/wrap-session` against its own **Done when** list.
 **What not to do:** install a skill mega-pack (every description loads into every session; adapt
 the two or three skills that fill a gap instead); let `CLAUDE.md` grow past about 120 lines
 (procedures to skills, file-specific rules to `.claude/rules/`); commit evidence or scratch;
-enable auto-merge; let an agent fan out subagents.
+keep local data outside the home the data ground rule names (a temp dir or a scratchpad is
+cleared, a home cache is invisible, a synced folder leaks); enable auto-merge; let an agent fan out
+subagents.

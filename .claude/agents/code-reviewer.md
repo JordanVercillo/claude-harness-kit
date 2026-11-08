@@ -31,7 +31,11 @@ The spec or brief (a batch PR has none: its items table stands in), the diff
    absence claim ("never fires", "no caller") needs a caller list, a log line or a counterfactual
    test.
 5. **Hygiene:** a hand-edited generated file, an edit under a read-only path, scratch or evidence
-   committed, a lock file changed without reason.
+   committed, a lock file changed without reason. Where `CLAUDE.md`'s ground rules name a home for
+   local data (a kit install defaults to the repo's gitignored `data/`): local data written outside
+   it, or committed from it. A run's self-deleting working files, a test's own temp dir and a
+   backup copy the repo's conventions name are not findings; nor is anything in a repo whose rules
+   name no home.
 6. **Run the checks yourself:** the repo's verify command and its harness guards
    (`uv run scripts/harness_guards.py` where the repo has them, or the equivalent `CLAUDE.md`
    names); re-run verify if the verdict is stale.

@@ -7,8 +7,15 @@
 # Claude Code machine-local settings
 .claude/settings.local.json
 
-# Rebuildable artifacts (the script is the artifact — data/outputs stay untracked)
-# {{ARTIFACT_DIRS}}   e.g. data/, outputs/, *.duckdb
+# Local data (CLAUDE.md's data ground rule): inputs, screenshots, fetched data, snapshots,
+# generated reports and library caches (pointed at data/cache/) live here, inside the repo
+# and never committed; never in a temp dir, a home-folder cache or a cloud-synced folder.
+# Synthetic test fixtures live outside it (e.g. tests/fixtures/), so tests run without it.
+# Anchored to the root, so a nested data/ (a package's data, tests/fixtures/data/) stays tracked.
+/data/
+
+# Rebuildable artifacts beyond data/ (the script is the artifact — outputs stay untracked)
+# {{ARTIFACT_DIRS}}   e.g. outputs/, *.duckdb
 
 # Python (uncomment if a Python repo)
 # __pycache__/

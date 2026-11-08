@@ -35,7 +35,7 @@ domain templates carry `{{…}}` placeholders to fill; `docs/` is read, never in
 | journal.md | template | `templates/notes/journal.md` | numbered, append-only lessons | every repo | none |
 | roadmap.md | template | `templates/notes/roadmap.md` | the plan with a 📍 | every repo | fill the phases from the vision |
 | README.md (repo) | template | `templates/README.md` | the human front door | only if the repo has none | fill |
-| gitignore | template | `templates/gitignore` | the lines every harnessed repo ignores (secrets, local settings, artifacts) | every repo (merge) | uncomment the language block |
+| gitignore | template | `templates/gitignore` | the lines every harnessed repo ignores (secrets, local settings, the local `data/` folder, artifacts) | every repo (merge) | uncomment the language block |
 | settings.json | template | `templates/.claude/settings.json` | the two hooks registered, a starter allowlist | every repo (merge into an existing one) | keep the repo's permissions; swap `uv run` for `python` when uv is absent |
 | block_protected_paths hook | hook | `templates/hooks/block_protected_paths.py` | PreToolUse: hard-blocks edits to generated, vendor and read-only paths | every repo | fill PROTECTED with the repo's paths |
 | rules/harness.md | template | `templates/.claude/rules/harness.md` | path-scoped rule: how to write seats, skills, hooks and rules (loads only while editing `.claude/`) | every repo | none |
@@ -95,7 +95,7 @@ ready-to-use file (`.claude/`, `HANDOFF.md`, this file) is a defect.
 
 | Token | Fills with | Appears in |
 |---|---|---|
-| `{{ARTIFACT_DIRS}}` | rebuildable outputs to ignore (detected + interview) | `templates/gitignore` |
+| `{{ARTIFACT_DIRS}}` | rebuildable outputs to ignore beyond `data/`, which the template already ignores (detected + interview) | `templates/gitignore` |
 | `{{AUDIT_SCRIPT}}` | the path of the domain audit script, once written (seat templates) | `seats/testing-expert.TEMPLATE.md` |
 | `{{COLLABORATOR}}` | the other person, when the repo is shared (MERGE-POLICY only) | `templates/docs/MERGE-POLICY.md` |
 | `{{COLLABORATOR_LANES}}` | their paths (MERGE-POLICY only) | `templates/docs/MERGE-POLICY.md` |
@@ -124,8 +124,9 @@ ready-to-use file (`.claude/`, `HANDOFF.md`, this file) is a defect.
 | `{{PREREQ}}` | what a newcomer installs first (detected) | `templates/README.md` |
 | `{{PROJECT}}` | the project's name as the seats address it (seat templates) | `seats/data-modeling-expert.TEMPLATE.md`, `seats/python-expert.TEMPLATE.md`, `seats/sql-expert.TEMPLATE.md`, `seats/testing-expert.TEMPLATE.md` |
 | `{{REPO_NAME}}` | the repo's name (derived from the folder) | `templates/CLAUDE.md`, `templates/README.md` |
+| `{{RULE_DATA}}` | ground rule 3: where local data lives (interview; default: the repo's own `data/`, gitignored, library caches in `data/cache/`; never a temp dir, a scratchpad, a home cache or a synced folder; another home when `data/` is already tracked; scratch stays in the scratchpad, anything kept is data) | `templates/CLAUDE.md` |
 | `{{RULE_READONLY}}` | ground rule 2: what is generated or read-only and never hand-edited (detected + interview) | `templates/CLAUDE.md` |
-| `{{RULE_SECRETS}}` | ground rule 3: the secrets policy (interview; default: by name only, live values outside git) | `templates/CLAUDE.md` |
+| `{{RULE_SECRETS}}` | ground rule 4: the secrets policy (interview; default: by name only, live values outside git) | `templates/CLAUDE.md` |
 | `{{RULE_TOOLING}}` | ground rule 1: how code runs (the package manager, the runner) (interview) | `templates/CLAUDE.md` |
 | `{{RUNNER}}` | how a script is run, e.g. `uv run` (seat templates) | `seats/python-expert.TEMPLATE.md` |
 | `{{RUN_CMD}}` | the canonical run command (detected, confirmed) | `templates/README.md` |

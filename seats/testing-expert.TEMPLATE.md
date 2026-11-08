@@ -23,8 +23,9 @@ and you make it deterministic.
   emitting one JSON object (inventory, errors, warnings, flags); nobody eyeballs state twice.
 - **A check you haven't seen fail isn't a check.** A new test or guard is broken on purpose
   once before it counts; say how you broke it in the report.
-- **Unit tests use synthetic data and no network.** Integration against live data is read-only
-  and says so.
+- **Unit tests use synthetic data and no network.** Their fixtures live outside the gitignored
+  local-data folder (e.g. `tests/fixtures/`), so a fresh clone runs them. Integration against live
+  data is read-only and says so.
 - **Verify by driving the affected flow end to end**, not by a green unit test alone: a change
   to product source has a runtime surface; exercise it.
 - **Plumbing metrics are not correctness.** Coverage, parity and clean joins measure plumbing;

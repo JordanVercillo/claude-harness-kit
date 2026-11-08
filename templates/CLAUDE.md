@@ -10,9 +10,10 @@ next step. Reading it makes you fully caught up without re-deriving anything.
 ## Ground rules
 
 1. {{RULE_TOOLING}} <!-- e.g. Python runs through uv: `uv run <script>` — never bare python, never activate a venv -->
-2. {{RULE_READONLY}} <!-- what is read-only: data/, generated files, synced copies — never hand-edit -->
-3. {{RULE_SECRETS}} <!-- secrets by name only, live values in .env (gitignored); a hardcoded fallback IS a leak -->
-4. Commit small reviewable chunks and push regularly — the repo is its own backup.
+2. {{RULE_READONLY}} <!-- what is read-only: generated files, synced copies, vendored code — never hand-edit -->
+3. {{RULE_DATA}} <!-- default: local data lives in the repo's own data/ (gitignored): inputs, screenshots, fetched data, snapshots, generated reports, library caches (pointed at data/cache/) — never a temp dir, a session scratchpad, a home-folder cache or a cloud-synced folder. Scratch (a probe script, a check's output) stays in the scratchpad; anything kept or read again is local data -->
+4. {{RULE_SECRETS}} <!-- secrets by name only, live values in .env (gitignored); a hardcoded fallback IS a leak -->
+5. Commit small reviewable chunks and push regularly — the repo is its own backup.
 
 ## Routing
 
@@ -39,4 +40,5 @@ specifics. A new skill or seat gets its routing row here.
 | `notes/` | PROJECT_CONTEXT (memory) · journal (numbered lessons) · roadmap (plan) |
 | `.claude/` | agents · hooks · rules · settings (the hooks, the allowlist) — this repo's part of the harness |
 | {{SRC_PATH}} | {{SRC_DESC}} <!-- e.g. src/ — the package you build and extend --> |
+| `data/` | local data, gitignored (the data ground rule): inputs, fetched data, snapshots, reports, `cache/` <!-- name the home the data ground rule chose, or drop the row --> |
 <!-- add if installed: | `specs/` | validated implementation contracts (`/spec`) | -->
