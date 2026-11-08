@@ -11,6 +11,11 @@ Generated from one canonical copy; nothing here is hand-edited. `CATALOG.md` is 
 
 ## Sixty-second start
 
+> **Starting a new repo?** Follow [the playbook](docs/WORKFLOW.md#4-starting-a-new-repo-the-playbook)
+> in order: name it once, create the remote empty, bootstrap, keep real values out of every
+> commit, prove the history clean, then push. The steps below install the kit; the playbook is
+> the whole path from an empty folder to the first slice.
+
 1. Put this folder somewhere stable (beside your repos, or `~/claude-harness-kit`).
 2. Install the startup skill once, at user scope, so it works in every repo:
    copy `.claude/skills/kit-start/` to `~/.claude/skills/kit-start/`

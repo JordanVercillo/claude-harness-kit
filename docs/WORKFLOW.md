@@ -109,9 +109,22 @@ plan, closed by `/wrap-session` against its own **Done when** list.
 
 ## 4. Starting a new repo (the playbook)
 
-1. **Create it private** where the workplace's convention allows a choice. Vendor assets,
-   personal data and anything with a key never go public.
-2. **Bootstrap.** In a Claude Code session in that folder, `/kit-start <kit path>`. It detects
+> **The order:** name it once → create the remote empty → `/kit-start` → real values only in the
+> data home → prove the history clean → first push → `/resume`. Steps 1, 2 and 4 each record a
+> mistake that once forced a rename or a history rebuild; step 5 is the proof that catches them.
+
+1. **Name it once, before anything exists.** The folder, the remote repo and the project's folder
+   in the data home share one final name, in the case you mean to keep. A rename after the
+   bootstrap touches every file the install filled (the `CLAUDE.md` map, the hooks, the notes, the
+   seats, the docs) and the data-home folder. Where the data home's allowlist admits repos by
+   name, pick a name it admits, or have its owner add the repo first.
+2. **Create it private, and empty.** Use private where the workplace's convention allows a choice.
+   Vendor assets, personal data and anything with a key never go public. The remote starts with
+   nothing in it: no README, licence or `.gitignore`. Any of them makes an unrelated first commit
+   that the first push must merge or rebuild around. Create the remote from the local repo once
+   step 5 has passed: `gh repo create <name> --private --source . --remote origin`. A web form
+   works too, with every "initialize" box unticked.
+3. **Bootstrap.** In a Claude Code session in that folder, `/kit-start <kit path>`. It detects
    the stack, asks only for the gaps (purpose, vision, who rules, the domain, four ground rules,
    what recurs), rules the pieces with you, and writes them with their placeholders filled. One
    default it offers: data only (inputs, fetched data, snapshots, generated outputs, library
@@ -123,14 +136,25 @@ plan, closed by `/wrap-session` against its own **Done when** list.
    fallback for any other repo or a machine without a data home, and a safety net with one. So a
    temp dir, a session scratchpad or a synced folder never holds the only copy, one project never
    edits another's data (the protected-paths hook), and nothing is committed by accident.
-3. **Start warm.** Fill the RESUME HERE block with the first real NEXT ACTION before closing the
+4. **Real values never enter a commit, examples included.** Account numbers, balances,
+   holdings, names and keys live only in the data home (or the gitignored `data/`). Notes, docs,
+   code comments, fixtures and example payloads use synthetic values (`XYZ`, `qty 10`,
+   `price 100.0`), and a status line says how many, never how much. Nothing the owner pastes into
+   a session is copied into a tracked file. If a real value reaches a local commit, fix it before
+   the first push by rebuilding those commits with the value scrubbed. A later commit that
+   deletes it does not help, because the history keeps both.
+5. **Prove it, then push once.** `/verify` passes. The `git log -p` of every branch you push
+   contains none of a few real values (search for them; never write them into a tracked file).
+   Nothing under `data/` is tracked. Then the first push is a plain fast-forward
+   (`git push -u origin main`). Never force-push.
+6. **Start warm.** Fill the RESUME HERE block with the first real NEXT ACTION before closing the
    session; the next `/resume` must be productive.
-4. **First slice.** `/resume` → `/groom` → the draft brief → the grill → `/orchestrator` →
+7. **First slice.** `/resume` → `/groom` → the draft brief → the grill → `/orchestrator` →
    `/interview-me` the first spec → `/spec` → build on a branch → `/verify` → `/ship` → the owner
    merges → `/wrap-session` (with the dream). A tracer bullet, not the whole feature.
-5. **First retro.** After the first slice, `/retro`. It asks the owner each candidate and applies
+8. **First retro.** After the first slice, `/retro`. It asks the owner each candidate and applies
    what they OK; anything mechanical becomes a guard or a hook, never a sentence in `CLAUDE.md`.
-6. **Keep the kit upstream.** An adaptation lives in the repo's copy and wins by name. A generic
+9. **Keep the kit upstream.** An adaptation lives in the repo's copy and wins by name. A generic
    improvement goes back to the kit (`HANDOFF.md` §2 says how, and what never travels).
 
 **What not to do:** install a skill mega-pack (every description loads into every session; adapt
@@ -138,4 +162,5 @@ the two or three skills that fill a gap instead); let `CLAUDE.md` grow past abou
 (procedures to skills, file-specific rules to `.claude/rules/`); commit evidence or scratch;
 keep local data outside the home the data ground rule names (a temp dir or a scratchpad is
 cleared, a home cache is invisible, a synced folder leaks); enable auto-merge; let an agent fan out
-subagents.
+subagents; rename a repo after the bootstrap; let the remote start with a README; put a real value
+in an example "just for now".
