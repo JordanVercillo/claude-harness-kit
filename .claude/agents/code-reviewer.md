@@ -32,10 +32,12 @@ The spec or brief (a batch PR has none: its items table stands in), the diff
    test.
 5. **Hygiene:** a hand-edited generated file, an edit under a read-only path, scratch or evidence
    committed, a lock file changed without reason. Where `CLAUDE.md`'s ground rules name a home for
-   local data (a kit install defaults to the repo's gitignored `data/`): local data written outside
-   it, or committed from it. A run's self-deleting working files, a test's own temp dir and a
-   backup copy the repo's conventions name are not findings; nor is anything in a repo whose rules
-   name no home.
+   local data (a kit install defaults to this project's folder in a machine-level data home outside
+   the repo, which an env var names): local data written anywhere else, local data committed, a
+   doc, note or script written into the data home (it holds data only), or a path to the home built
+   in code instead of resolved from its env var with its default. Not findings: the variable's own
+   value in a `.env` or its example, a run's self-deleting working files, a test's own temp dir, a
+   backup copy the repo's conventions name, and anything in a repo whose rules name no home.
 6. **Run the checks yourself:** the repo's verify command and its harness guards
    (`uv run scripts/harness_guards.py` where the repo has them, or the equivalent `CLAUDE.md`
    names); re-run verify if the verdict is stale.

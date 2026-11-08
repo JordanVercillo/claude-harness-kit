@@ -11,7 +11,7 @@ next step. Reading it makes you fully caught up without re-deriving anything.
 
 1. {{RULE_TOOLING}} <!-- e.g. Python runs through uv: `uv run <script>` — never bare python, never activate a venv -->
 2. {{RULE_READONLY}} <!-- what is read-only: generated files, synced copies, vendored code — never hand-edit -->
-3. {{RULE_DATA}} <!-- default: local data lives in the repo's own data/ (gitignored): inputs, screenshots, fetched data, snapshots, generated reports, library caches (pointed at data/cache/) — never a temp dir, a session scratchpad, a home-folder cache or a cloud-synced folder. Scratch (a probe script, a check's output) stays in the scratchpad; anything kept or read again is local data -->
+3. {{RULE_DATA}} <!-- default: data only (extracts and pulls: inputs, screenshots, fetched data, snapshots, generated outputs, library caches in its cache/) lives in this project's folder in the machine-level data home, outside the repo: code finds it through its env var with a default, e.g. $DATA_ROOT/<repo>/ (default ~/.data/<repo>/), never a path built in code without that variable. Never inside the repo, a temp dir, a session scratchpad, a library's default cache or a cloud-synced folder. Code, docs and every other file never go in the data home; the doc of the data's layout lives in the repo (e.g. docs/data-home.md). Without a data home, the repo's own gitignored data/. Scratch (a probe script, a check's output) stays in the scratchpad; data kept or read again (an input, a pull, an output) is local data -->
 4. {{RULE_SECRETS}} <!-- secrets by name only, live values in .env (gitignored); a hardcoded fallback IS a leak -->
 5. Commit small reviewable chunks and push regularly — the repo is its own backup.
 
@@ -40,5 +40,5 @@ specifics. A new skill or seat gets its routing row here.
 | `notes/` | PROJECT_CONTEXT (memory) · journal (numbered lessons) · roadmap (plan) |
 | `.claude/` | agents · hooks · rules · settings (the hooks, the allowlist) — this repo's part of the harness |
 | {{SRC_PATH}} | {{SRC_DESC}} <!-- e.g. src/ — the package you build and extend --> |
-| `data/` | local data, gitignored (the data ground rule): inputs, fetched data, snapshots, reports, `cache/` <!-- name the home the data ground rule chose, or drop the row --> |
+| {{DATA_PATH}} | local data only, never committed (the data ground rule): inputs, fetched data, snapshots, generated outputs, `cache/`; its layout is documented in `docs/data-home.md` <!-- e.g. `$DATA_ROOT/<repo>/` (outside the repo); `data/` without a data home --> |
 <!-- add if installed: | `specs/` | validated implementation contracts (`/spec`) | -->

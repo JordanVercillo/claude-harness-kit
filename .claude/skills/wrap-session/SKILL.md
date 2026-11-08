@@ -78,12 +78,14 @@ This copy is the repo's own: list what the repo regenerates before a commit here
    the owner, never done. Everything done here is listed in the report:
    - **Inside the repo:** `git status --short` shows only the memory files you're about to
      commit. A file it lists that this session's own tools wrote (a guard's JSON output, a
-     verdict file, a screenshot no doc references) is moved to the scratchpad, unless it is kept or
-     read again: that is local data, and it moves to the data home `CLAUDE.md`'s ground rules
-     name (listed for the owner where they name none), never into the scratchpad this step clears.
-     A file whose origin you don't know is listed for the owner and left alone. This session's
-     unfinished work reaches a branch through `/ship`, never the wrap commit. `git stash list` is
-     empty and `git worktree list` shows one worktree; anything else is reported.
+     verdict file, a screenshot no doc references) is moved to the scratchpad, unless it is data
+     kept or read again (an input, a pull, an output): that moves to the data home `CLAUDE.md`'s
+     ground rules name (listed for the owner where they name none), never into the scratchpad this
+     step clears. A doc, note or script worth keeping stays in the repo: list it for the owner (it
+     ships through `/ship`). A file whose origin you don't know is listed for the owner and left
+     alone. This session's unfinished work reaches a branch through `/ship`, never the wrap
+     commit. `git stash list` is empty and `git worktree list` shows one worktree; anything else
+     is reported.
    - **Branches:** a local or remote branch that `origin/main` already contains
      (`git log origin/main..<ref>` prints nothing) is deleted with `git push origin --delete`
      and `git branch -d`. That containment check is the authority: `-d` tests against the

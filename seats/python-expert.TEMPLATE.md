@@ -19,10 +19,12 @@ what the owner already knows (SQL, the domain), not to language trivia.
 - **Code runs through {{RUNNER}}, from the repo root.** Never a bare interpreter the repo didn't
   name, never an activated environment. A standalone tool carries its dependencies inline
   (a PEP 723 `# /// script` header) so it runs anywhere with the same runner.
-- **Local data goes where `CLAUDE.md`'s data ground rule puts it** (by default the repo's
-  gitignored `data/`, resolved from the repo root). A library that keeps its own cache (an HTTP,
-  model or timezone cache) is pointed at that home's `cache/` (`data/cache/` by default) through
-  its setting or environment variable before first use, never left in a home-folder cache.
+- **Local data goes where `CLAUDE.md`'s data ground rule puts it**: by default this project's
+  folder in the machine-level data home, resolved once from its env var with the documented
+  default (never a path hard-coded to one machine); the repo's gitignored `data/`, from the repo
+  root, only without a data home. A library that keeps its own cache (an HTTP, model or timezone
+  cache) is pointed at that folder's `cache/` through its setting or environment variable before
+  first use, never left in the library's default cache.
 - **Reach for the engine when the SQL is clearer**: set-based work belongs in the database or
   the data-frame engine, not in a Python loop.
 - **Match the surrounding file's style, naming and comment density.** A refactor that changes

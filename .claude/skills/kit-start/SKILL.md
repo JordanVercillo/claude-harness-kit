@@ -14,29 +14,28 @@ target folder.
 ## Phase 0 — Locate the kit and detect the repo (don't ask what you can see)
 
 1. **Find the kit**, in this order, and say which: the path in the invocation's arguments; the
-   `HARNESS_KIT` environment variable; a folder named `claude-harness-kit` beside this repo or in
-   the home folder; the current folder itself when it holds `CATALOG.md` and `.claude/skills/kit-start/`
-   (then the target repo must be named in the arguments). Read the kit's `CATALOG.md` in full (the
-   inventory, the install order, the placeholder table) and `HANDOFF.md` §"The boundary" once.
+   `HARNESS_KIT` env var; a folder named `claude-harness-kit` beside this repo or in the home folder;
+   the current folder itself when it holds `CATALOG.md` and `.claude/skills/kit-start/` (then the
+   target repo is named in the arguments). Read `CATALOG.md` in full, `HANDOFF.md` §"The boundary" once.
 2. **Detect the repo:** `git rev-parse --is-inside-work-tree`, `git log -1` (new or has history);
    the stack from its manifest (`pyproject.toml`, `package.json`, `go.mod`, `Cargo.toml`, `*.sln`,
    `dbt_project.yml`, `requirements.txt`: language, setup, run, test and lint commands); generated,
    vendored or synced paths (an index, a catalog, `vendor/`, `dist/`, `target/`): candidates for the
    protected-paths hook; a knowledge-base folder; CI config; how work is merged (branches, PRs, a
-   protected `main`); who commits (`git shortlog -sn | head`); a tracked `data/` (`git ls-files data`).
+   protected `main`); who commits (`git shortlog -sn | head`); a tracked `data/` (`git ls-files data`);
+   a machine-level data home (an env var like `DATA_ROOT`, or a home dot-folder of project folders).
 3. **Detect the tooling** the kit's scripts need: `uv --version`, else `python --version` plus
    `python -c "import yaml"`; the runner the install writes into hook commands and routing rows is
    `uv run <script>` when uv exists, else `python <script>` (name `pyyaml` as a prerequisite). Record
    whether `gh` exists (`/ship` uses it; without it `/ship` opens PRs through the web).
 4. **Already harnessed?** If `CLAUDE.md`, `notes/PROJECT_CONTEXT.md` or `.claude/skills/` exists,
-   never clobber: show the owner what is there and offer to merge or add specific pieces. An
-   existing skill of the same name as a kit piece is the repo's own and wins; leave it.
+   never clobber: show it and offer to merge or add pieces; a same-named skill is the repo's and wins.
 5. **Enterprise settings:** read the managed settings file, when one exists (`HANDOFF.md` §"If loose
    skills are blocked" names the path per OS and the keys): a key that stops loose project skills,
    agents or hooks from loading is said now, before installing; where you can't read the file, say that.
 
 **Done when:** you can state, in one block, the kit path, the stack, the runner, the merge model,
-the committers, the protected-path candidates, a tracked `data/`, and whether it is already harnessed.
+the committers, the protected-path candidates, the data home and a tracked `data/`, whether harnessed.
 
 ## Phase 1 — Showcase (what is available)
 
@@ -58,9 +57,9 @@ never ask what Phase 0 detected, confirm it in the premise. Six at most; stop on
 4. **The domain.** What the repo mostly is: a data platform or warehouse, a pipeline, an app or
    service, a library, infrastructure, docs or research, a course. (The domain pieces hang on this.)
 5. **The ground rules.** The four a session must never break: the runner; what is read-only or
-   generated; where local data lives (default: the repo's own gitignored `data/`, library caches in
-   `data/cache/`, never a temp dir, a scratchpad, a home cache or a synced folder; another home when
-   Phase 0 found a tracked `data/`, which ignoring would hide new files from); the secrets policy.
+   generated; where local data lives (default: data only, in this project's folder in the data home
+   Phase 0 found, never a temp dir, a scratchpad or a synced folder; without one, the repo's gitignored
+   `data/`, or another gitignored folder when `data/` is tracked; never a new home); the secrets policy.
 6. **What recurs.** The check someone keeps running by eye ("is X healthy?", a count, a parity):
    the candidate for the first deterministic audit. "Nothing yet" is a fine answer.
 
@@ -96,11 +95,12 @@ Present the table with a one-line summary of what will be written and ask the ow
    the interview and Phase 0 per the placeholder table: `CLAUDE.md` (prune routing rows for tiers
    not installed; the runner's spelling in every command), `notes/PROJECT_CONTEXT.md`,
    `notes/journal.md`, `notes/roadmap.md`, `README.md` (only if absent), `.gitignore` (merge the
-   kit's lines, the root-anchored `/data/` among them; uncomment the language block), `data/` (and
-   `data/cache/` when the code has a library cache; a home the data rule named instead replaces
-   `data/` in `.gitignore` and the map), `.claude/settings.json` (merge: keep the repo's permissions
-   and hooks; the two hook commands with the runner's spelling and an absolute `$CLAUDE_PROJECT_DIR`
-   path), `.claude/hooks/block_protected_paths.py` (fill `PROTECTED` with the Phase 0 candidates),
+   kit's lines; a tracked `data/` swaps `/data/` for the fallback's, if any; uncomment the language block),
+   the data folder (data only: the project's folder in the data home, `cache/` for a library cache;
+   else the repo's gitignored fallback), `docs/data-home.md` (its layout, kept in the repo),
+   `.claude/settings.json` (merge: keep the repo's permissions and hooks; the two hook commands with
+   the runner's spelling and an absolute `$CLAUDE_PROJECT_DIR` path), `.claude/hooks/block_protected_paths.py`
+   (fill `PROTECTED` from Phase 0 and, with a data home, its data-home section, `DATA_PROJECT` too),
    `.claude/hooks/session_start.py`, `.claude/rules/harness.md`, `scripts/harness_guards.py`.
 2. **Skills and seats ruled ADOPT:** copy the kit's `.claude/skills/<name>/` folder (with its
    scripts) and `.claude/agents/<name>.md` as they are. ADAPT: copy, then make the named edit
@@ -117,8 +117,8 @@ Present the table with a one-line summary of what will be written and ask the ow
    vision, never "start using the harness". The session-log line records the kit's plugin version
    (from `CATALOG.md`'s header) and the tiers installed, so a later upgrade knows where it started.
 
-Never copy `docs/`, `HANDOFF.md`, `CATALOG.md` or this skill into the repo. Never edit the kit.
-`git init` only when the folder is not a repo, and ask first. Do not commit unless asked.
+Never copy the kit's `docs/`, `HANDOFF.md`, `CATALOG.md` or this skill into the repo. Never edit
+the kit. `git init` only when the folder is not a repo, and ask first. Do not commit unless asked.
 
 **Done when:** every ADOPT or ADAPT row has its files and its routing row; no SKIP file exists.
 
@@ -126,16 +126,16 @@ Never copy `docs/`, `HANDOFF.md`, `CATALOG.md` or this skill into the repo. Neve
 
 Run and show, one table, PASS / FAIL per line:
 - `<runner> scripts/harness_guards.py` passes all six checks;
-- `git check-ignore -q <data home>/probe` exits 0 (`data/probe` by default); a home outside the
-  repo, or a folder that is not a git repo, is "not applicable", said so;
-- the protected-paths hook blocks a protected path and allows a normal one: pipe
+- the ignore line: `git check-ignore -q data/probe` (the fallback's folder when `data/` is tracked)
+  exits 0; "not applicable", said so, with no such line or no git repo;
+- the protected-paths hook blocks a protected path (with a data home, also a file in another
+  project's folder there, never one in its own) and allows a normal one: pipe
   `{"tool_name":"Edit","tool_input":{"file_path":"<path>"}}` to it; exit 2 blocks, 0 allows;
 - the SessionStart hook prints a JSON object with `additionalContext` holding the RESUME block
   when run from the repo root with an empty stdin;
 - no `{{` remains under the repo (`grep -rn "{{" CLAUDE.md notes/ .claude/ scripts/`), excluding
   files the repo had before;
-- the spec validator runs, when `/spec` was installed: `<runner> .claude/skills/spec/validate_spec.py --help`
-  or on an empty file returns its JSON;
+- with `/spec` installed, `<runner> .claude/skills/spec/validate_spec.py` on an empty file returns JSON;
 - the skills load: at the next session start in this folder, `/skills` lists each installed
   name (discovery is not the same as the file existing; say so if you cannot restart here).
 

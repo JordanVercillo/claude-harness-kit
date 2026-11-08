@@ -20,7 +20,7 @@ from pathlib import Path
 
 import yaml
 
-# The contract every spec must satisfy (mirrors language-models' generate-spec).
+# The contract every spec must satisfy.
 REQUIRED = ["approach", "tasks", "integration_steps", "evaluation_plan",
             "reference_materials", "verification"]
 RECOMMENDED = ["success_criteria"]

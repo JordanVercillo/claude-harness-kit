@@ -100,8 +100,9 @@ plan, closed by `/wrap-session` against its own **Done when** list.
    are guards in CI; rules that matter only for some files are path-scoped in `.claude/rules/`.
 9. **Evidence in the PR, scratch outside the repo, data in its home.** Verdict lines and test
    counts are pasted into the PR; proof folders and screenshots nobody references are never
-   committed. Scratch (a probe script, a check's output) stays in the session scratchpad; anything
-   kept or read again is local data and lives where the data ground rule says.
+   committed. Scratch (a probe script, a check's output) stays in the session scratchpad; data kept
+   or read again (an input, a pull, an output) is local data and lives where the data ground rule
+   says; a doc, note or script worth keeping stays in the repo.
 10. **Write for agents the way the research says works.** A skill's description is a pointer with
     its trigger words first; every step has a completion criterion; state the target behaviour,
     not the prohibition; delete instructions the model already follows; link, never paste.
@@ -113,9 +114,13 @@ plan, closed by `/wrap-session` against its own **Done when** list.
 2. **Bootstrap.** In a Claude Code session in that folder, `/kit-start <kit path>`. It detects
    the stack, asks only for the gaps (purpose, vision, who rules, the domain, four ground rules,
    what recurs), rules the pieces with you, and writes them with their placeholders filled. One
-   default it offers: local data lives in the repo's own `data/`, gitignored (inputs, fetched data,
-   snapshots, reports, library caches in `data/cache/`), so a temp dir, a session scratchpad, a
-   home-folder cache or a synced folder never holds the only copy and nothing is committed by accident.
+   default it offers: data only (inputs, fetched data, snapshots, generated outputs, library
+   caches) lives in this project's folder in a machine-level data home outside the repo, which an
+   env var names, one folder per project; code, docs and every other file never go there, and the
+   doc of the data's layout lives in the repo. The repo's gitignored `data/` is the fallback without a data
+   home and a safety net with one. So a temp dir, a session scratchpad or a synced folder never
+   holds the only copy, one project never edits another's data (the protected-paths hook), and
+   nothing is committed by accident.
 3. **Start warm.** Fill the RESUME HERE block with the first real NEXT ACTION before closing the
    session; the next `/resume` must be productive.
 4. **First slice.** `/resume` → `/groom` → the draft brief → the grill → `/orchestrator` →
